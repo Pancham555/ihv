@@ -98,10 +98,10 @@ WSGI_APPLICATION = 'ihv_backend.wsgi.application'
 # mongoengine.connect(db='ihv_backend', host='localhost')
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'ihv_backend',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'djongo',
+        'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': 'ihv_backend',
+        'NAME': BASE_DIR / 'db.sqlite3',
 
     }
 }

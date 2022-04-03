@@ -153,3 +153,5 @@ CSRF_COOKIE_SECURE = True
 # ACCOUNT_USERNAME_REQUIRED = False
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # AUTH_USER_MODEL = 'api.User'
+STATIC_ROOT = BASE_DIR/'static'
+# STATICFILES_DIRS = [BASE_DIR/'static']

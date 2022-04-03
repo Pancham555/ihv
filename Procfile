@@ -1,0 +1,1 @@
+web: gunicorn ihv_backend.wsgi

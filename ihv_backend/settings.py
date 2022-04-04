@@ -26,13 +26,14 @@ SECRET_KEY = 'django-insecure-df9y_7=2+(a+usf-mm!e!2jh4^@%r1a4a$=*^9ssck%(#vddwc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ihv-pancham.herokuapp.com']
+ALLOWED_HOSTS = ['ihv-pancham.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'api',
     'djongo',
@@ -66,7 +67,8 @@ REST_FRAMEWORK = {
 
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ]
 }
 CORS_ORIGIN_ALLOW_ALL = True
@@ -147,7 +149,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-APPEND_SLASH = True
+APPEND_SLASH = False
 CSRF_COOKIE_SECURE = True
 # ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # ACCOUNT_EMAIL_REQUIRED = True

@@ -8,8 +8,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.decorators import login_required
 from api.models import Comment, Feedback
 from api.serealizers import CommentSerializer, FeedbackSerializer
-from rest_framework.authtoken.models import Token
-
+from rest_framework_simplejwt.tokens import RefreshToken
 # Create your views here.
 # from rest_framework import renderers, parsers
 # from rest_framework.authtoken.views import APIView
@@ -46,9 +45,12 @@ def signup(req):
                         email=email,
                         password=make_password(password))
             user.save()
-            token = Token.objects.get(user=user)
-            return Response({'message': "Signup Successful",
-                             'token': token.key})
+            token = RefreshToken.for_user(user)
+            return Response({
+                'message': "Signup Successful",
+                'access': str(token.access_token),
+                'refresh': str(token)
+            })
         except Exception as e:
             print(e)
             return Response({'message': "Signup Failed"})

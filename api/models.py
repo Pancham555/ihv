@@ -1,15 +1,36 @@
 from django.db import models
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
-# Create your models here.
+# # Create your models here.
+from django.contrib.auth.backends import ModelBackend, UserModel
+from django.db.models import Q
+from django.contrib.auth.models import User
+
+
+class EmailBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:  # to allow authentication through phone number or any other field, modify the below statement
+            user = UserModel.objects.get(
+                Q(username__iexact=username) | Q(email__iexact=username))
+        except UserModel.DoesNotExist:
+            UserModel().set_password(password)
+        except:
+            return User.objects.filter(email=username).order_by('id').first()
+        else:
+            if user.check_password(password) and self.user_can_authenticate(user):
+                return user
+
+    def get_user(self, user_id):
+        try:
+            user = UserModel.objects.get(pk=user_id)
+        except UserModel.DoesNotExist:
+            return None
+
+        return user if self.user_can_authenticate(user) else None
 
 
 class Feedback(models.Model):
     feedback_email_asker = models.CharField(max_length=100)
     feedback_question = models.CharField(primary_key=True, max_length=100)
-    feedback_answer = models.CharField(max_length=100)
+    feedback_answer = models.CharField(max_length=100, null=True, default=None)
     feedback_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

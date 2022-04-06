@@ -7,13 +7,14 @@ from django.contrib.auth import authenticate, logout
 from api.models import Comment, Feedback
 from api.serealizers import CommentSerializer,  FeedbackSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework_simplejwt.views import TokenObtainPairView
-# Create your views here.
-# from rest_framework import renderers, parsers
-# from rest_framework.authtoken.views import APIView
-# from rest_framework.authtoken import views as auth_views
-# from rest_framework.compat import coreapi, coreschema
-# from rest_framework.schemas import ManualSchema
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.IsAuthenticated,))
+def index(req):
+    print('Someone entered here')
+    return Response({'message': 'Credential Correct!'})
 
 
 @api_view(['GET', 'POST'])
@@ -55,26 +56,8 @@ def signup(req):
             return Response({'message': "Signup Failed"})
 
 
-# class EmailTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = CustomTokenObtainPairSerializer
-# @api_view(['POST'])
-# @permission_classes((permissions.AllowAny,))
-# def login(req):
-#     email = req.data.get('email')
-#     password = req.data.get('password')
-#     try:
-#         user = User.objects.get(email=email, password=password)
-#         token = RefreshToken.for_user(user)
-#         return Response({'message': "Login Successful",
-#                          'access': str(token.access_token),
-#                          'refresh': str(token)
-#                          })
-#     except print(0):
-#         print(0)
-
-
-@api_view(['GET', 'POST'])
-@permission_classes((permissions.IsAuthenticated,))
+@ api_view(['GET', 'POST'])
+@ permission_classes((permissions.IsAuthenticated,))
 def feedback(req):
     if req.method == 'POST':
         if req.user.is_superuser and req.data.get('feedback_question') and req.data.get('feedback_answer'):
@@ -105,16 +88,14 @@ def feedback(req):
         return Response(data.data)
 
 
-@permission_classes((permissions.IsAuthenticated,))
-@api_view(['GET', 'POST'])
+@ permission_classes((permissions.IsAuthenticated,))
+@ api_view(['GET', 'POST'])
 def comment(req):
-    # return Response({'message': 'Comment'})
     if req.method == 'POST':
         try:
             data = req.data
             savedata = Comment(comment=data.get('comment'),
                                comment_maker=req.user.username or req.user.email)
-            # print(data, "data")
             savedata.save()
             return Response({'message': 'Comment done'})
         except Exception as e:
@@ -123,7 +104,4 @@ def comment(req):
     else:
         data = CommentSerializer(Comment.objects.all(), many=True)
         res = Response(data.data)
-        res.set_cookie('refresh', 'refresh token here', httponly=True)
         return res
-
-    # return Response({'message': 'Comment done'})

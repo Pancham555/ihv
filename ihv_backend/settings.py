@@ -106,8 +106,30 @@ SIMPLE_JWT = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-# ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+]
+# CORS_ALLOW_HEADERS = [
+#     'accept',
+#     'accept-encoding',
+#     'authorization',
+#     'content-type',
+#     'dnt',
+#     'origin',
+#     'user-agent',
+#     'x-csrftoken',
+#     'x-requested-with',
+#     'withCredentials',
+#     'crossDomain',
+#     'sameSite',
+#     'sameOrigin',
+#     'Access-Control-Allow-Origin',
+#     'Access-Control-Allow-Credentials',
+# ]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'https://ihv.vercel.app']
+# ALLOWED_HOSTS = ["*"]
 ROOT_URLCONF = 'ihv_backend.urls'
 
 TEMPLATES = [

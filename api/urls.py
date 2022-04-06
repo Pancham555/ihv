@@ -5,8 +5,7 @@ from rest_framework_simplejwt.views import (
 )
 from rest_framework_simplejwt.views import TokenVerifyView
 urlpatterns = [
-    # path('', views.index),
-    # path('login', views.login),
+    path('', views.index),
     path('signup/', views.signup),
     path('logout/', views.logoutuser),
     path('feedback/', views.feedback),

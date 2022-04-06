@@ -28,7 +28,7 @@ class EmailBackend(ModelBackend):
 
 
 class Feedback(models.Model):
-    feedback_email_asker = models.CharField(max_length=100)
+    feedback_username = models.CharField(max_length=100)
     feedback_question = models.CharField(primary_key=True, max_length=100)
     feedback_answer = models.CharField(max_length=100, null=True, default=None)
     feedback_date = models.DateTimeField(auto_now_add=True)

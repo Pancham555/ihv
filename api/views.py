@@ -59,7 +59,7 @@ def signup(req):
 @ api_view(['GET', 'POST'])
 @ permission_classes((permissions.IsAuthenticated,))
 def feedback(req):
-    if req.method == 'POST':
+    if req.method == 'POST' and req.data.get('feedback_question'):
         if req.user.is_superuser and req.data.get('feedback_question') and req.data.get('feedback_answer'):
             try:
                 data = req.data
@@ -81,7 +81,7 @@ def feedback(req):
             #                    feedback_email_asker=req.user.email).is_valid(
             #     raise_exception=True)
             Feedback(feedback_question=data.get('feedback_question'),
-                     feedback_email_asker=req.user.email).save()
+                     feedback_username=req.user.username).save()
             return Response({'message': 'Feedback done'})
     else:
         data = FeedbackSerializer(Feedback.objects.all(), many=True)

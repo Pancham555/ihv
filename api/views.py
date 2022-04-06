@@ -91,7 +91,7 @@ def feedback(req):
 @ permission_classes((permissions.IsAuthenticated,))
 @ api_view(['GET', 'POST'])
 def comment(req):
-    if req.method == 'POST':
+    if req.method == 'POST' and req.data.get('comment'):
         try:
             data = req.data
             savedata = Comment(comment=data.get('comment'),

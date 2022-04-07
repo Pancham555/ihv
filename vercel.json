@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "ihv_backend/wsgi.py",
+            "use": "@ardnt/vercel-python-wsgi"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "ihv_backend/wsgi.py"
+        }
+    ]
+}
